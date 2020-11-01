@@ -144,7 +144,7 @@ const pug2html = () => {
     return src('./app/pages/*.pug')
     .pipe(pugLinter({ reporter: 'default' }))
     .pipe(pug({
-        pretty: true
+        pretty: false // 'true' doesn't work with 'webphtml'
     }).on("error", notify.onError()))
     .pipe(webphtml())
     .pipe(htmlValidator())

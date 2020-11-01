@@ -1,0 +1,141 @@
+.header {
+    position: fixed;
+    z-index: 200;
+    padding: 18px 0;
+    width: 100%;
+    background-color: #fff;
+
+    &__container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__nav {
+        @include media(1140) {
+            display: none;
+        }
+    }
+
+    &__burger {
+        @include media(1140) {
+            display: block;
+        }
+    }
+}
+
+.logo {
+    &__svg {
+        width: 79px;
+        height: 23px;
+        fill: $mainColor;
+    }
+}
+
+.nav {
+    &__list {
+        &_dir {
+            &_row {
+                display: flex;
+                margin: 0 100px 0 0;
+            }
+
+            &_col {
+                flex-direction: column;
+            }
+        }
+    }
+
+    &__item {
+        &_dir {
+            &_row {
+                &:not(:last-child) {
+                    margin: 0 70px 0 0;
+                }
+            }
+
+            &_col {
+                &:not(:first-child) {
+                    margin: 70px 0 0;
+                }
+            }
+        }
+    }
+
+    &__link {
+        font-weight: 500;
+        line-height: 24px;
+        transition: all 0.2s;
+
+        &_color {
+            &_white {
+                font-size: 25px;
+                color: #fff;
+            }
+        }
+
+        &:hover {
+            color: $mainColor;
+        }
+    }
+}
+
+.auth-list {
+    &__item {
+        display: inline-block;
+
+        &:first-child {
+            margin: 0 36px 0 0;
+        }
+    }
+
+    &__link {
+        line-height: 24px;
+
+        &:hover {
+            color: $mainColor;
+        }
+    }
+
+    @include media(1140) {
+        display: none;
+    }
+}
+
+.btn {
+    display: block;
+    border: 1px solid $mainColor;
+    border-radius: 4px;
+    box-sizing: border-box;
+    text-align: center;
+    color: #fff;
+    background-color: $mainColor;
+    transition: all 0.2s;
+
+    &_size {
+        &_s {
+            width: 183px;
+            height: 51px;
+            line-height: 51px;
+        }
+
+        &_m {
+            width: 227px;
+            height: 65px;
+            line-height: 65px;
+
+            @include media(650) {
+                width: 180px;
+                height: 50px;
+                line-height: 50px;
+            }
+        }
+    }
+
+    &:hover {
+        border-color: $mainColor;
+        color: $mainColor;
+        background-color: transparent;
+    }
+}

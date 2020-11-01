@@ -10,7 +10,28 @@ html {
 
 body {
     margin: 0;
-    font-family: "asd", sans-serif;
+    min-width: 320px;
+    font-family: $mainFont;
+    font-size: 20px;
+    color: $paragColor;
+
+    @include media(650) {
+        font-size: 16px;
+    }
+}
+
+.container {
+    margin: 0 auto;
+    padding: 0 30px;
+    max-width: 1429px;
+
+    @include media(650) {
+        padding: 0 15px;
+    }
+}
+
+.site-container {
+    overflow: hidden;
 }
 
 img {
@@ -49,10 +70,6 @@ ol {
     left: -9999px !important; // stylelint-disable-line declaration-no-important
 }
 
-.site-container {
-    overflow: hidden;
-}
-
 .is-hidden {
     display: none !important; // stylelint-disable-line declaration-no-important
 }
@@ -69,12 +86,6 @@ ol {
     border: none;
     background: transparent;
     cursor: pointer;
-}
-
-.container {
-    margin: 0 auto;
-    padding: 0 15px;
-    max-width: 1200px;
 }
 
 .js-focus-visible :focus:not(.focus-visible) {
