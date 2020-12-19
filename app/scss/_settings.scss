@@ -12,18 +12,18 @@ body {
     margin: 0;
     min-width: 320px;
     font-family: $mainFont;
-    font-size: 20px;
+    font-size: 16px;
     color: $paragColor;
 
     @include media(650) {
-        font-size: 16px;
+        font-size: 14px;
     }
 }
 
 .container {
     margin: 0 auto;
     padding: 0 30px;
-    max-width: 1429px;
+    max-width: 1170px;
 
     @include media(650) {
         padding: 0 15px;

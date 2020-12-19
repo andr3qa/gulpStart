@@ -140,6 +140,11 @@ const svgSprites = () => {
         .pipe(dest('./dist/img'));
 }
 
+const favicons = () => {
+    return (src('./app/img/favicons/*'))
+    .pipe(dest('./dist/img/favicons/'))
+}
+
 const pug2html = () => {
     return src('./app/pages/*.pug')
     .pipe(pugLinter({ reporter: 'default' }))
@@ -236,7 +241,7 @@ exports.watchFiles  = watchFiles;
 exports.fonts       = fonts;
 exports.fontsStyle  = fontsStyle;
 
-exports.default = series(clean, parallel(pug2html, scripts, fonts, resources, img, svgSprites), fontsStyle, styles, watchFiles);
+exports.default = series(clean, parallel(pug2html, scripts, fonts, resources, img, svgSprites, favicons), fontsStyle, styles, watchFiles);
 
 // BUILD
 
