@@ -109,7 +109,7 @@ const fontsStyle = (done) => {
 
 const resources = () => {
     return src('./app/resources/**')
-        .pipe(dest('./dist'))
+        .pipe(dest('./dist/resources'))
 }
 
 const img = () => {
@@ -243,107 +243,3 @@ exports.fontsStyle  = fontsStyle;
 
 exports.default = series(clean, parallel(pug2html, scripts, fonts, resources, img, svgSprites, favicons), fontsStyle, styles, watchFiles);
 
-// BUILD
-
-const pug2htmlBuild = () => {
-    return src('./app/pages/*.pug')
-    .pipe(pug({ pretty: false }))
-    .pipe(dest('./dist'))
-}
-
-const stylesBuild = () => {
-    return src('./app/scss/**/*.scss')
-        .pipe(sass({
-            outputStyle: 'expanded'
-        }).on("error", notify.onError()))
-        .pipe(rename({
-            suffix: '.min'
-        }))
-        .pipe(autoprefixer({
-            cascade: false,
-        }))
-        .pipe(cleanCSS({
-            level: 2
-        }))
-        .pipe(dest('./dist/css/'))
-}
-
-const scriptsBuild = () => {
-    return src('./app/js/main.js')
-        .pipe(webpackStream(
-
-            {
-                mode: 'development',
-                output: {
-                    filename: 'main.js',
-                },
-                module: {
-                    rules: [{
-                        test: /\.m?js$/,
-                        exclude: /(node_modules|bower_components)/,
-                        use: {
-                            loader: 'babel-loader',
-                            options: {
-                                presets: ['@babel/preset-env']
-                            }
-                        }
-                    }]
-                },
-            }))
-        .on('error', function (err) {
-            console.error('WEBPACK ERROR', err);
-            this.emit('end'); // Don't stop the rest of the task
-        })
-        .pipe(uglify().on("error", notify.onError()))
-        .pipe(dest('./dist/js'))
-}
-
-const cache = () => {
-    return src('dist/**/*.{css,js,svg,png,jpg,jpeg,woff2}', {
-            base: 'dist'
-        })
-        .pipe(rev())
-        .pipe(revdel())
-        .pipe(dest('dist'))
-        .pipe(rev.manifest('rev.json'))
-        .pipe(dest('dist'));
-};
-
-const rewrite = () => {
-    const manifest = src('dist/rev.json');
-
-    return src('dist/**/*.html')
-        .pipe(revRewrite({
-            manifest
-        }))
-        .pipe(dest('dist'));
-}
-
-exports.cache = series(cache, rewrite);
-
-exports.build = series(clean, parallel(pug2htmlBuild, scriptsBuild, fonts, resources, img, svgSprites), fontsStyle, stylesBuild);
-
-
-// deploy
-const deploy = () => {
-    let conn = ftp.create({
-        host: '',
-        user: '',
-        password: '',
-        parallel: 10,
-        log: gutil.log
-    });
-
-    let globs = [
-        'dist/**',
-    ];
-
-    return src(globs, {
-            base: './dist',
-            buffer: false
-        })
-        .pipe(conn.newer('')) // only upload newer files
-        .pipe(conn.dest(''));
-}
-
-exports.deploy = deploy;
