@@ -5,7 +5,7 @@ const cleanCSS      = require('gulp-clean-css');
 const uglify        = require('gulp-uglify-es').default;
 const del           = require('del');
 const browserSync   = require('browser-sync').create();
-const sass          = require('gulp-sass');
+const sass          = require('gulp-sass')(require('sass'));
 const rename        = require('gulp-rename');
 const gutil         = require('gulp-util');
 const ftp           = require('vinyl-ftp');
@@ -153,6 +153,7 @@ const pug2html = () => {
     }).on("error", notify.onError()))
     .pipe(webphtml())
     .pipe(htmlValidator())
+    .pipe(htmlValidator.reporter())
     .pipe(bemValidator())
     .pipe(dest('./dist'))
     .pipe(browserSync.stream());
