@@ -25,7 +25,6 @@ const webphtml      = require('gulp-webp-html');
 const webpCss       = require('gulp-webp-css');
 const pug           = require('gulp-pug');
 const pugLinter     = require('gulp-pug-linter');
-const htmlValidator = require('gulp-w3c-html-validator');
 const bemValidator  = require('gulp-html-bem-validator');
 
 
@@ -152,8 +151,6 @@ const pug2html = () => {
         pretty: false // 'true' doesn't work with 'webphtml'
     }).on("error", notify.onError()))
     .pipe(webphtml())
-    .pipe(htmlValidator())
-    .pipe(htmlValidator.reporter())
     .pipe(bemValidator())
     .pipe(dest('./dist'))
     .pipe(browserSync.stream());

@@ -35,7 +35,6 @@
     "gulp-ttf2woff2": "^3.0.0",
     "gulp-uglify-es": "^2.0.0",
     "gulp-util": "^3.0.8",
-    "gulp-w3c-html-validator": "2.0",
     "gulp-webp": "^4.0.1",
     "gulp-webp-css": "^1.1.0",
     "gulp-webp-html": "^1.0.2",
@@ -47,7 +46,7 @@
     "vinyl-ftp": "^0.6.1",
     "webp-converter": "^2.2.3",
     "webpack": "^5.42.0",
-    "webpack-stream": "^6.1.0"
+    "webpack-stream": "^7.0.0"
   },
   "dependencies": {
     "normalize.css": "^8.0.1"
