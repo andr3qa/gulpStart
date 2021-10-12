@@ -1,130 +1,36 @@
-const {src, dest, parallel, series, watch} = require('gulp');
+const {src, dest, series, watch} = require('gulp');
+
+const { readFileSync }  = require('fs');
+const { htmlValidator } = require('gulp-w3c-html-validator');
+
 const autoprefixer  = require('gulp-autoprefixer');
-const groupMedia    = require('gulp-group-css-media-queries');
+const babel         = require('gulp-babel');
 const cleanCSS      = require('gulp-clean-css');
 const uglify        = require('gulp-uglify-es').default;
 const del           = require('del');
 const browserSync   = require('browser-sync').create();
 const sass          = require('gulp-sass')(require('sass'));
-const rename        = require('gulp-rename');
-const gutil         = require('gulp-util');
-const ftp           = require('vinyl-ftp');
-const sourcemaps    = require('gulp-sourcemaps');
-const notify        = require('gulp-notify');
 const svgSprite     = require('gulp-svg-sprite');
-const webpack       = require('webpack');
-const webpackStream = require('webpack-stream');
-const ttf2woff2     = require('gulp-ttf2woff2');
-const fs            = require('fs');
+const fileInclude   = require('gulp-file-include');
+const sourcemaps    = require('gulp-sourcemaps');
 const rev           = require('gulp-rev');
 const revRewrite    = require('gulp-rev-rewrite');
-const revdel        = require('gulp-rev-delete-original');
-const imagemin      = require('gulp-imagemin');
+const revDel        = require('gulp-rev-delete-original');
+const htmlmin       = require('gulp-htmlmin');
+const gulpif        = require('gulp-if');
+const notify        = require('gulp-notify');
+const image         = require('gulp-image');
+const concat        = require('gulp-concat');
+const groupMedia    = require('gulp-group-css-media-queries');
 const webp          = require('gulp-webp');
-const webphtml      = require('gulp-webp-html');
+const webphtml      = require('gulp-webp-in-html');
 const webpCss       = require('gulp-webp-css');
-const pug           = require('gulp-pug');
-const pugLinter     = require('gulp-pug-linter');
 const bemValidator  = require('gulp-html-bem-validator');
 
+let isProd = false; // dev by default
 
-const fonts = () => {
-    return src('./app/fonts/**.ttf')
-        .pipe(ttf2woff2())
-        .pipe(dest('./dist/fonts/'));
-}
-
-const checkWeight = (fontname) => {
-    let weight = 400;
-    switch (true) {
-        case /Thin/.test(fontname):
-            weight = 100;
-            break;
-        case /ExtraLight/.test(fontname):
-            weight = 200;
-            break;
-        case /Light/.test(fontname):
-            weight = 300;
-            break;
-        case /Regular/.test(fontname):
-            weight = 400;
-            break;
-        case /Medium/.test(fontname):
-            weight = 500;
-            break;
-        case /SemiBold/.test(fontname):
-            weight = 600;
-            break;
-        case /Semi/.test(fontname):
-            weight = 600;
-            break;
-        case /Bold/.test(fontname):
-            weight = 700;
-            break;
-        case /ExtraBold/.test(fontname):
-            weight = 800;
-            break;
-        case /Heavy/.test(fontname):
-            weight = 700;
-            break;
-        case /Black/.test(fontname):
-            weight = 900;
-            break;
-        default:
-            weight = 400;
-    }
-    return weight;
-}
-
-const cb = () => {}
-
-let srcFonts = './app/scss/_fonts.scss';
-let appFonts = './dist/fonts/';
-
-const fontsStyle = (done) => {
-    let file_content = fs.readFileSync(srcFonts);
-
-    fs.writeFile(srcFonts, '', cb);
-    fs.readdir(appFonts, function (err, items) {
-        if (items) {
-            let c_fontname;
-            for (var i = 0; i < items.length; i++) {
-                let fontname = items[i].split('.');
-                fontname = fontname[0];
-                let font = fontname.split('-')[0];
-                let weight = checkWeight(fontname);
-
-                if (c_fontname != fontname) {
-                    fs.appendFile(srcFonts, '@include font-face("' + font + '", "' + fontname + '", ' + weight + ');\r\n', cb);
-                }
-
-                c_fontname = fontname;
-            }
-        }
-    })
-
-    done();
-}
-
-const resources = () => {
-    return src('./app/resources/**')
-        .pipe(dest('./dist/resources'))
-}
-
-const img = () => {
-    return src('./app/img/src/**/*')
-    .pipe(webp({
-        quality: 70
-    }))
-    .pipe(dest('./dist/img/'))
-    .pipe(src('./app/img/src/**/*'))
-    .pipe(imagemin({
-        progressive: true,
-        svgoPlugins: [{ removeViewBox: false }],
-        interlaced: true,
-        optimizationLevel: 3 // 0 to 7
-    }))
-    .pipe(dest('./dist/img/'))
+const clean = () => {
+    return del(['dist/*'])
 }
 
 const svgSprites = () => {
@@ -132,39 +38,35 @@ const svgSprites = () => {
         .pipe(svgSprite({
             mode: {
                 stack: {
-                    sprite: "../sprite.svg"
+                sprite: "../sprite.svg" //sprite file name
                 }
             },
         }))
         .pipe(dest('./dist/img'));
 }
 
-const favicons = () => {
-    return (src('./app/img/favicons/*'))
-    .pipe(dest('./dist/img/favicons/'))
-}
-
-const pug2html = () => {
-    return src('./app/pages/*.pug')
-    .pipe(pugLinter({ reporter: 'default' }))
-    .pipe(pug({
-        pretty: false // 'true' doesn't work with 'webphtml'
-    }).on("error", notify.onError()))
-    .pipe(webphtml())
-    .pipe(bemValidator())
-    .pipe(dest('./dist'))
-    .pipe(browserSync.stream());
-}
-
 const styles = () => {
     return src('./app/scss/**/*.scss')
-        .pipe(sourcemaps.init())
+        .pipe(gulpif(!isProd, sourcemaps.init()))
         .pipe(sass({
             outputStyle: 'expanded'
         }).on("error", notify.onError()))
-        .pipe(rename({
-            suffix: '.min'
+        .pipe(groupMedia())
+        .pipe(autoprefixer({
+            cascade: false,
         }))
+        .pipe(cleanCSS({
+            level: 2
+        }))
+        .pipe(webpCss()) // without "cleanCSS" it gives an error
+        .pipe(gulpif(!isProd, sourcemaps.write('.')))
+        .pipe(dest('./dist/css/'))
+        .pipe(browserSync.stream());
+}
+
+const stylesBackend = () => {
+    return src('./app/scss/**/*.scss')
+        .pipe(sass().on("error", notify.onError()))
         .pipe(groupMedia())
         .pipe(autoprefixer({
             cascade: false,
@@ -173,71 +75,125 @@ const styles = () => {
             level: 2
         }))
         .pipe(webpCss())
-        .pipe(sourcemaps.write('.'))
         .pipe(dest('./dist/css/'))
+};
+
+const scripts = () => {
+    src('./app/js/vendor/**.js')
+        .pipe(concat('vendor.js'))
+        .pipe(gulpif(isProd, uglify().on("error", notify.onError())))
+        .pipe(dest('./dist/js/'))
+    return src(
+        ['./app/js/components/**/*.js', './app/js/main.js'])
+        .pipe(gulpif(!isProd, sourcemaps.init()))
+            .pipe(babel({
+                presets: ['@babel/env']
+            }))
+        .pipe(concat('main.js'))
+        .pipe(gulpif(isProd, uglify().on("error", notify.onError())))
+        .pipe(gulpif(!isProd, sourcemaps.write('.')))
+        .pipe(dest('./dist/js'))
         .pipe(browserSync.stream());
 }
 
-const scripts = () => {
-    return src('./app/js/main.js')
-        .pipe(webpackStream({
-            mode: 'development',
-            output: {
-                filename: 'main.js',
-            },
-            module: {
-                rules: [{
-                    test: /\.m?js$/,
-                    exclude: /(node_modules|bower_components)/,
-                    use: {
-                        loader: 'babel-loader',
-                        options: {
-                            presets: ['@babel/preset-env']
-                        }
-                    }
-                }]
-            },
-        }))
-        .on('error', function (err) {
-            console.error('WEBPACK ERROR', err);
-            this.emit('end'); // Don't stop the rest of the task
-        })
-
-        .pipe(sourcemaps.init())
-        .pipe(uglify().on("error", notify.onError()))
-        .pipe(sourcemaps.write('.'))
+const scriptsBackend = () => {
+    src('./app/js/vendor/**.js')
+        .pipe(concat('vendor.js'))
+        .pipe(gulpif(isProd, uglify().on("error", notify.onError())))
+        .pipe(dest('./dist/js/'))
+    return src(['./app/js/components/**/*.js', './app/js/main.js'])
         .pipe(dest('./dist/js'))
+};
+
+const resources = () => {
+    return src('./app/resources/**')
+        .pipe(dest('./dist'))
+}
+
+const images = () => {
+    return src('./app/img/src/**/*')
+        .pipe(webp({
+            quality: 70
+        }))
+        .pipe(dest('./dist/img'))
+        .pipe(src('./app/img/src/**/*'))
+        .pipe(gulpif(isProd, image()))
+        .pipe(dest('./dist/img'))
+};
+
+const htmlInclude = () => {
+    return src('./app/html/*.html')
+        .pipe(fileInclude({
+            prefix: '@',
+            basepath: '@file'
+        }))
+        .pipe(webphtml())
+        .pipe(htmlValidator.analyzer())
+        .pipe(htmlValidator.reporter())
+        .pipe(bemValidator())
+        .pipe(dest('./dist'))
         .pipe(browserSync.stream());
 }
 
 const watchFiles = () => {
     browserSync.init({
-        server: { baseDir: "./dist" },
+        server: {
+            baseDir: "./dist",
+        },
         notify: false,
         online: true
     });
 
-    watch('./app/pages/**/*.pug', pug2html);
     watch('./app/scss/**/*.scss', styles);
     watch('./app/js/**/*.js', scripts);
+    watch('./app/html/**/*.html', htmlInclude);
     watch('./app/resources/**', resources);
-    watch('./app/img/src/**/*', img);
+    watch('./app/img/*.{jpg,jpeg,png,webp,svg}', images);
+    watch('./app/img/**/*.{jpg,jpeg,png,webp}', images);
     watch('./app/img/svg/**.svg', svgSprites);
-    watch('./app/fonts/**', fonts);
-    watch('./app/fonts/**', fontsStyle);
 }
 
-const clean = () => {
-    return del(['dist/*'])
+const cache = () => {
+    return src('dist/**/*.{css,js,svg,png,jpg,jpeg,webp,woff2}', {
+        base: 'dist'})
+        .pipe(rev())
+        .pipe(revDel())
+        .pipe(dest('dist'))
+        .pipe(rev.manifest('rev.json'))
+        .pipe(dest('dist'));
+};
+
+const rewrite = () => {
+    const manifest = readFileSync('dist/rev.json');
+        src('dist/css/*.css')
+        .pipe(revRewrite({
+            manifest
+        }))
+        .pipe(dest('dist/css'));
+    return src('dist/**/*.html')
+        .pipe(revRewrite({
+            manifest
+        }))
+        .pipe(dest('dist'));
 }
 
-exports.pug2html    = pug2html;
-exports.styles      = styles;
-exports.scripts     = scripts;
-exports.img         = img;
-exports.watchFiles  = watchFiles;
-exports.fonts       = fonts;
-exports.fontsStyle  = fontsStyle;
+const htmlMinify = () => {
+    return src('dist/**/*.html')
+        .pipe(htmlmin({
+            collapseWhitespace: true
+        }))
+        .pipe(dest('dist'));
+}
 
-exports.default = series(clean, parallel(pug2html, scripts, fonts, resources, img, svgSprites, favicons), fontsStyle, styles, watchFiles);
+const toProd = (done) => {
+    isProd = true;
+    done();
+};
 
+exports.default = series(clean, htmlInclude, scripts, styles, resources, images, svgSprites, watchFiles);
+
+exports.build = series(toProd, clean, htmlInclude, scripts, styles, resources, images, svgSprites, htmlMinify);
+
+exports.cache = series(cache, rewrite);
+
+exports.backend = series(toProd, clean, htmlInclude, scriptsBackend, stylesBackend, resources, images, svgSprites);

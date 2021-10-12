@@ -10,82 +10,42 @@ html {
 
 body {
     margin: 0;
-    min-width: 320px;
     font-family: $mainFont;
-    font-size: 16px;
-    color: $paragColor;
-
-    @include media(650) {
-        font-size: 14px;
-    }
-}
-
-.container {
-    margin: 0 auto;
-    padding: 0 30px;
-    max-width: 1170px;
-
-    @include media(650) {
-        padding: 0 15px;
-    }
-}
-
-.site-container {
-    overflow: hidden;
 }
 
 img {
     max-width: 100%;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    margin: 0;
-    padding: 0;
-}
-
-p {
-    margin: 0;
-    padding: 0;
-}
-
 a {
     text-decoration: none;
-    color: inherit;
 }
 
-ul,
-ol {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.is-outer {
-    position: relative !important; // stylelint-disable-line declaration-no-important
-    left: -9999px !important; // stylelint-disable-line declaration-no-important
+.site-container {
+    overflow: hidden; // if you use position: sticky on the site - remove this setting
 }
 
 .is-hidden {
     display: none !important; // stylelint-disable-line declaration-no-important
 }
 
-.error {
-    border: 2px #ff4019 solid !important; // stylelint-disable-line declaration-no-important
-}
-
-.visually-hidden {
-    @include visually-hidden;
-}
-
 .btn-reset {
     border: none;
+    padding: 0;
     background: transparent;
     cursor: pointer;
+}
+
+.list-reset {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    margin: 0 auto;
+    padding: 0 15px;
+    max-width: 1200px;
 }
 
 .js-focus-visible :focus:not(.focus-visible) {
