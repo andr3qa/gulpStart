@@ -1,4 +1,4 @@
 import './_vendor.js';
-import vars from './_vars.js';
-import './_functions.js';
+import {isWebp} from './functions/is-webp.js';
+isWebp();
 import './_components.js';

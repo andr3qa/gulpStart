@@ -1,1 +1,1 @@
-
+import './components/animate.js';

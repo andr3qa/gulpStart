@@ -1,16 +1,17 @@
 /* stylelint-disable */
 
 @mixin burger {
-    --burger-width: 30px;
-    --burger-height: 30px;
+    --burger-width: 32px;
+    --burger-height: 22px;
     --burger-line-height: 2px;
 
     position: relative;
+    z-index: 11;
     border: none;
     padding: 0;
     width: var(--burger-width);
     height: var(--burger-height);
-    color: #000;
+    color: $secondColor;
     background-color: transparent;
     cursor: pointer;
 
