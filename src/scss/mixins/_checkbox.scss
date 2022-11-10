@@ -9,7 +9,6 @@
     }
 
     &__content {
-        padding-left: 25px;
         cursor: pointer;
 
         &::before {
@@ -17,23 +16,25 @@
             position: absolute;
             left: 0;
             top: 0;
-            border: 1px solid #000;
-            width: 15px;
-            height: 15px;
+            border: 1px solid #eee;
+            border-radius: 3px;
+            width: 45px;
+            height: 45px;
             box-sizing: border-box;
+            background: #fff;
         }
 
         &::after {
             content: "";
             position: absolute;
-            left: 0;
-            top: 0;
+            left: 15px;
+            top: 16px;
             width: 15px;
-            height: 15px;
+            height: 11px;
             box-sizing: border-box;
-            background-image: url("data:image/svg+xml,%3Csvg version='1.1' id='fi_32282' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='405.272px' height='405.272px' viewBox='0 0 405.272 405.272' style='enable-background:new 0 0 405.272 405.272;' xml:space='preserve'%3E%3Cg%3E%3Cpath d='M393.401,124.425L179.603,338.208c-15.832,15.835-41.514,15.835-57.361,0L11.878,227.836 c-15.838-15.835-15.838-41.52,0-57.358c15.841-15.841,41.521-15.841,57.355-0.006l81.698,81.699L336.037,67.064 c15.841-15.841,41.523-15.829,57.358,0C409.23,82.902,409.23,108.578,393.401,124.425z'%3E%3C/path%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg width='15' height='11' viewBox='0 0 15 11' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M14.6515 0.451946C14.1874 -0.0127744 13.4337 -0.0124814 12.969 0.451946L5.3968 8.02444L2.03129 4.65895C1.56656 4.19423 0.813261 4.19423 0.348541 4.65895C-0.11618 5.12367 -0.11618 5.87698 0.348541 6.3417L4.55526 10.5484C4.78747 10.7806 5.09196 10.897 5.39648 10.897C5.701 10.897 6.00579 10.7809 6.238 10.5484L14.6515 2.13466C15.1162 1.67026 15.1162 0.916638 14.6515 0.451946Z' fill='%232BC36F'/%3E%3C/svg%3E");
             background-position: center;
-            background-size: 10px 10px;
+            background-size: 15px 11px;
             background-repeat: no-repeat;
             opacity: 0;
             transition: opacity 0.3s ease-in-out;
@@ -46,7 +47,7 @@
 }
 
 .custom-checkbox__field:focus+.custom-checkbox__content::before {
-    outline: 2px solid #f00;
+    outline: auto;
     outline-offset: 2px;
 }
 

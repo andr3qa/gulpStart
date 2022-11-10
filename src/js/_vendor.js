@@ -1,1 +1,1 @@
-import './vendor/focus-visible.js';
+import './../../node_modules/focus-visible/dist/focus-visible.min.js'

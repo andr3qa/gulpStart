@@ -1,1 +1,1 @@
-import './components/animate.js';
+import './components/burger.js';

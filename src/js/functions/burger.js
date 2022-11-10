@@ -6,16 +6,18 @@ import {
 } from '../functions/enable-scroll.js';
 
 export const burger = () => {
-    const burger = document?.querySelector('[data-burger]');
-    const menu = document?.querySelector('[data-menu]');
-    const menuItems = document?.querySelectorAll('[data-menu-item]');
-    const overlay = document?.querySelector('[data-menu-overlay]');
+    const burger = document?.querySelector('.menu-btn');
+    const menu = document?.querySelector('.nav__list');
+    const menuItems = document?.querySelectorAll('.nav-close');
+    const hero = document?.querySelector('.hero');
+    const overlay = document?.querySelector('.hero');
 
     burger?.addEventListener('click', (e) => {
-        burger?.classList.toggle('burger--active');
-        menu?.classList.toggle('mobile-nav--active');
+        burger?.classList.toggle('menu-btn_active');
+        menu?.classList.toggle('nav__list_active');
+        hero?.classList.toggle('hero_active');
 
-        if (menu?.classList.contains('mobile-nav--active')) {
+        if (menu?.classList.contains('nav__list_active')) {
             burger?.setAttribute('aria-expanded', 'true');
             burger?.setAttribute('aria-label', 'Закрыть меню');
             disableScroll();
@@ -26,11 +28,12 @@ export const burger = () => {
         }
     });
 
-    overlay?.addEventListener('click', () => {
+    overlay?.addEventListener('click', (e) => {
         burger?.setAttribute('aria-expanded', 'false');
         burger?.setAttribute('aria-label', 'Открыть меню');
-        burger.classList.remove('burger--active');
-        menu.classList.remove('mobile-nav--active');
+        burger.classList.remove('menu-btn_active');
+        menu.classList.remove('nav__list_active');
+        hero.classList.remove('hero_active');
         enableScroll();
     });
 
@@ -38,8 +41,9 @@ export const burger = () => {
         el.addEventListener('click', () => {
             burger?.setAttribute('aria-expanded', 'false');
             burger?.setAttribute('aria-label', 'Открыть меню');
-            burger.classList.remove('burger--active');
-            menu.classList.remove('mobile-nav--active');
+            burger.classList.remove('menu-btn_active');
+            menu.classList.remove('nav__list_active');
+            hero.classList.remove('hero_active');
             enableScroll();
         });
     });
