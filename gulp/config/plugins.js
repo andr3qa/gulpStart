@@ -6,10 +6,10 @@ import newer from "gulp-newer";
 import ifPlugin from "gulp-if";
 
 export const plugins = {
-    replace: replace,
-    plumber: plumber,
-    notify: notify,
-    browserSync: browserSync,
-    newer: newer,
-    if: ifPlugin,
+  replace: replace,
+  plumber: plumber,
+  notify: notify,
+  browserSync: browserSync,
+  newer: newer,
+  if: ifPlugin,
 }

@@ -1,22 +1,20 @@
-import vars from '../_vars.js';
+export const showHideByScroll = (selector) => {
+  let lastScroll = 0;
+  const defaultOffset = 135;
+  const scrollUp = document.querySelector(`.${selector}`);
 
-export const showHideByScroll = () => {
-    let lastScroll = 0;
-    const defaultOffset = 100;
-    const burger = document.querySelector('.burger');
+  const scrollPosition = () => window.pageYOffset || document.documentElement.scrollTop;
+  const containHide = () => scrollUp.classList.contains(`${selector}_active`);
 
-    const scrollPosition = () => window.pageYOffset || document.documentElement.scrollTop;
-    const containHide = () => burger.classList.contains(`burger_hide`);
+  window.addEventListener('scroll', () => {
+    if (scrollPosition() > lastScroll && !containHide() && scrollPosition() > defaultOffset) {
+      //scroll down
+      scrollUp.classList.add(`${selector}_active`);
+    } else if (scrollPosition() < lastScroll && containHide()) {
+      //scroll up
+      scrollUp.classList.remove(`${selector}_active`);
+    }
 
-    window.addEventListener('scroll', () => {
-        if (scrollPosition() > lastScroll && !containHide() && scrollPosition() > defaultOffset) {
-            //scroll down
-            burger.classList.add(`burger_hide`);
-        } else if (scrollPosition() < lastScroll && containHide()) {
-            //scroll up
-            burger.classList.remove(`burger_hide`);
-        }
-
-        lastScroll = scrollPosition();
-    })
+    lastScroll = scrollPosition();
+  })
 }

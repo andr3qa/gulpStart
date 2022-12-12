@@ -1,14 +1,14 @@
-export const scrollUp = () => {
-    const offset = document.querySelector('.hero').offsetHeight;
-    const scrollUpBtn = document.querySelector('.scroll-up');
+export const scrollUp = (selector) => {
+  const offset = document.documentElement.clientHeight;
+  const scrollUpBtn = document.querySelector(`.${selector}`);
 
-    const getTop = () => window.pageYOffset || document.documentElement.scrollTop;
+  const getTop = () => window.pageYOffset || document.documentElement.scrollTop;
 
-    window.addEventListener('scroll', () => {
-        if (getTop() > offset) {
-            scrollUpBtn.classList.add('scroll-up_active');
-        } else {
-            scrollUpBtn.classList.remove('scroll-up_active');
-        }
-    });
+  window.addEventListener('scroll', () => {
+    if (getTop() > offset) {
+      scrollUpBtn.classList.add(`${selector}_active`);
+    } else {
+      scrollUpBtn.classList.remove(`${selector}_active`);
+    }
+  });
 }

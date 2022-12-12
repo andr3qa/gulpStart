@@ -30,6 +30,17 @@ img {
 
 a {
   text-decoration: none;
+  color: inherit;
+
+  &:focus {
+    outline: 3px solid $isFocusColor;
+  }
+}
+
+button {
+  &:focus {
+    outline: 3px solid $isFocusColor;
+  }
 }
 
 .site-container {
@@ -85,17 +96,23 @@ a {
   padding: 0 $container-offset;
   max-width: $container-width;
 
-  @include media(978) {
-    padding: 0 $container-offset - 10px;
+  @include mobile {
+    padding: 0 $container-offset - 15px;
+  }
+}
+
+.container-big {
+  margin: 0 auto;
+  padding: 0 $container-offset;
+  max-width: $site-width;
+
+  @include mobile {
+    padding: 0 $container-offset - 15px;
   }
 }
 
 .js-focus-visible :focus:not(.focus-visible) {
   outline: none;
-}
-
-.centered {
-  text-align: center;
 }
 
 .dis-scroll {

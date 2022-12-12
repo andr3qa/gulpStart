@@ -540,6 +540,7 @@
     "font-family-name-quotes": "always-unless-keyword",
     "font-family-no-duplicate-names": true,
     "font-weight-notation": "numeric",
+    "function-no-unknown": [true, { "ignoreFunctions": ["lighten", "darken"] }],
     "function-calc-no-unspaced-operator": true,
     "function-comma-newline-after": "always-multi-line",
     "function-comma-newline-before": "never-multi-line",
