@@ -1,22 +1,17 @@
-import {
-  disableScroll
-} from '../functions/disable-scroll.js';
-import {
-  enableScroll
-} from '../functions/enable-scroll.js';
+import { disableScroll } from '../functions/disable-scroll.js';
+import { enableScroll } from '../functions/enable-scroll.js';
 
-(function () {
+(function(){
   const burger = document?.querySelector('[data-burger]');
   const menu = document?.querySelector('[data-menu]');
   const menuItems = document?.querySelectorAll('[data-menu-item]');
   const overlay = document?.querySelector('[data-menu-overlay]');
-  const closeMenu = document?.querySelector('.nav-mobile__close');
 
   burger?.addEventListener('click', (e) => {
-    burger?.classList.toggle('burger_active');
-    menu?.classList.toggle('nav-mobile_active');
+    burger?.classList.toggle('burger--active');
+    menu?.classList.toggle('menu--active');
 
-    if (menu?.classList.contains('nav-mobile_active')) {
+    if (menu?.classList.contains('menu--active')) {
       burger?.setAttribute('aria-expanded', 'true');
       burger?.setAttribute('aria-label', 'Закрыть меню');
       disableScroll();
@@ -30,16 +25,8 @@ import {
   overlay?.addEventListener('click', () => {
     burger?.setAttribute('aria-expanded', 'false');
     burger?.setAttribute('aria-label', 'Открыть меню');
-    burger.classList.remove('burger_active');
-    menu.classList.remove('nav-mobile_active');
-    enableScroll();
-  });
-
-  closeMenu?.addEventListener('click', () => {
-    burger?.setAttribute('aria-expanded', 'false');
-    burger?.setAttribute('aria-label', 'Открыть меню');
-    burger.classList.remove('burger_active');
-    menu.classList.remove('nav-mobile_active');
+    burger.classList.remove('burger--active');
+    menu.classList.remove('menu--active');
     enableScroll();
   });
 
@@ -47,8 +34,8 @@ import {
     el.addEventListener('click', () => {
       burger?.setAttribute('aria-expanded', 'false');
       burger?.setAttribute('aria-label', 'Открыть меню');
-      burger.classList.remove('burger_active');
-      menu.classList.remove('nav-mobile_active');
+      burger.classList.remove('burger--active');
+      menu.classList.remove('menu--active');
       enableScroll();
     });
   });

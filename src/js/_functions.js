@@ -1,8 +1,8 @@
 // Данный файл - лишь собрание подключений готовых компонентов.
 // Рекомендуется создавать отдельный файл в папке components и подключать все там
 
-// // Определение операционной системы на мобильных
-// import { mobileCheck } from "./functions/mobile-check";
+// Определение операционной системы на мобильных
+// import { mobileCheck } from "./functions/mobile-check.js";
 // console.log(mobileCheck())
 
 // Определение ширины экрана
@@ -21,13 +21,13 @@
 // import './functions/fix-fullheight';
 
 // Реализация бургер-меню
-// import { burger } from './functions/burger.js';
+// import { burger } from './functions/burger';
 
 // Реализация остановки скролла (не забудьте вызвать функцию)
 // import { disableScroll } from './functions/disable-scroll';
 
 // Реализация включения скролла (не забудьте вызвать функцию)
-// import { enableScroll } from './functions/disable-scroll';
+// import { enableScroll } from './functions/enable-scroll';
 
 // Реализация модального окна
 // import GraphModal from 'graph-modal';
@@ -50,7 +50,8 @@
 // });
 
 // Подключение свайпера
-// import Swiper, { Navigation, Pagination } from 'swiper';
+// import Swiper from 'swiper';
+// import { Navigation, Pagination } from 'swiper/modules';
 // Swiper.use([Navigation, Pagination]);
 // const swiper = new Swiper(el, {
 //   slidesPerView: 'auto',

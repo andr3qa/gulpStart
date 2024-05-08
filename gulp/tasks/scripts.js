@@ -1,16 +1,20 @@
-import webpack from 'webpack-stream';
+import browserSync from 'browser-sync';
+import webpackStream from 'webpack-stream';
+import plumber from 'gulp-plumber';
+import notify from 'gulp-notify';
 
-export const js = () => {
-  return app.gulp.src(app.path.src.js)
-    .pipe(app.plugins.plumber(
-      app.plugins.notify.onError({
+export const scripts = () => {
+  return app.gulp.src(app.paths.srcMainJs)
+    .pipe(plumber(
+      notify.onError({
         title: "JS",
         message: "Error: <%= error.message %>"
-      })))
-    .pipe(webpack({
-      mode: app.isBuild ? 'production' : 'development',
+      })
+    ))
+    .pipe(webpackStream({
+      mode: app.isProd ? 'production' : 'development',
       output: {
-        filename: 'main.min.js',
+        filename: 'main.js',
       },
       module: {
         rules: [{
@@ -28,12 +32,12 @@ export const js = () => {
           }
         }]
       },
-      devtool: !app.isBuild ? 'source-map' : false
+      devtool: !app.isProd ? 'source-map' : false
     }))
     .on('error', function (err) {
       console.error('WEBPACK ERROR', err);
       this.emit('end');
     })
-    .pipe(app.gulp.dest(app.path.build.js))
-    .pipe(app.plugins.browserSync.stream());
+    .pipe(app.gulp.dest(app.paths.buildJsFolder))
+    .pipe(browserSync.stream());
 }

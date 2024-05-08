@@ -1,8 +1,7 @@
 import JustValidate from 'just-validate';
-// import Inputmask from "inputmask";
-import './../../../node_modules/inputmask/dist/inputmask.min.js';
+import Inputmask from "../../../node_modules/inputmask/dist/inputmask.es6.js";
 
-export const validateForms = (selector, rules, afterSend) => {
+export const validateForms = (selector, rules, checkboxes = [], afterSend) => {
   const form = document?.querySelector(selector);
   const telSelector = form?.querySelector('input[type="tel"]');
 
@@ -24,7 +23,7 @@ export const validateForms = (selector, rules, afterSend) => {
       if (item.tel) {
         item.rules.push({
           rule: 'function',
-          validator: function () {
+          validator: function() {
             const phone = telSelector.inputmask.unmaskedvalue();
             return phone.length === 10;
           },
@@ -41,6 +40,16 @@ export const validateForms = (selector, rules, afterSend) => {
       .addField(item.ruleSelector, item.rules);
   }
 
+  if (checkboxes.length) {
+    for (let item of checkboxes) {
+      validation
+        .addRequiredGroup(
+          `${item.selector}`,
+          `${item.errorMessage}`
+        )
+    }
+  }
+
   validation.onSuccess((ev) => {
     let formData = new FormData(ev.target);
 
@@ -52,7 +61,7 @@ export const validateForms = (selector, rules, afterSend) => {
           if (afterSend) {
             afterSend();
           }
-          alert('Отправлено');
+          console.log('Отправлено');
         }
       }
     }

@@ -1,25 +1,21 @@
-html {
-  box-sizing: border-box;
-}
-
 *,
 *::before,
 *::after {
-  box-sizing: inherit;
+  box-sizing: border-box;
 }
 
 .page {
   height: 100%;
-  font-family: $font-family, sans-serif;
+  font-family: var(--font-family, sans-serif);
   -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
 }
 
-.page-body {
+.page__body {
   margin: 0;
-  min-width: 320px;
+  min-width: 360px;
   min-height: 100%;
   font-size: 16px;
-  color: $pColor;
 }
 
 img {
@@ -30,17 +26,6 @@ img {
 
 a {
   text-decoration: none;
-  color: inherit;
-
-  &:focus {
-    outline: 3px solid $isFocusColor;
-  }
-}
-
-button {
-  &:focus {
-    outline: 3px solid $isFocusColor;
-  }
 }
 
 .site-container {
@@ -48,14 +33,13 @@ button {
 }
 
 .is-hidden {
-  display: none !important;
-  /* stylelint-disable-line declaration-no-important */
+  display: none !important; /* stylelint-disable-line declaration-no-important */
 }
 
 .btn-reset {
   border: none;
   padding: 0;
-  background: transparent;
+  background-color: transparent;
   cursor: pointer;
 }
 
@@ -93,26 +77,12 @@ button {
 
 .container {
   margin: 0 auto;
-  padding: 0 $container-offset;
-  max-width: $container-width;
-
-  @include mobile {
-    padding: 0 $container-offset - 15px;
-  }
+  padding: 0 var(--container-offset);
+  max-width: var(--container-width);
 }
 
-.container-big {
-  margin: 0 auto;
-  padding: 0 $container-offset;
-  max-width: $site-width;
-
-  @include mobile {
-    padding: 0 $container-offset - 15px;
-  }
-}
-
-.js-focus-visible :focus:not(.focus-visible) {
-  outline: none;
+.centered {
+  text-align: center;
 }
 
 .dis-scroll {

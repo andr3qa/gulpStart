@@ -1,8 +1,4 @@
-@mixin media($width) {
-  @media (max-width: ($width + "px")) {
-    @content;
-  }
-}
+/* stylelint-disable */
 
 @mixin for-desktop {
   @media (min-width: (1025px)) {
