@@ -1,10 +1,9 @@
-:root {
-  // base
-  --font-family: "Open Sans", sans-serif;
-  --content-width: 1170px;
-  --container-offset: 15px;
-  --container-width: calc(var(--content-width) + (var(--container-offset) * 2));
+$fontFamily: "Gilroy", sans-serif;
 
-  // colors
-  --light-color: #fff;
-}
+$contentWidth: 1138px;
+$containerOffset: 15px;
+$containerWidth: calc($contentWidth + $containerOffset * 2);
+
+$mainColor: #0297f1;
+$secondColor: #ef8711;
+$fontColor: #13284f;
