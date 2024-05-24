@@ -1,2 +1,4 @@
 app/**/*.css
 src/scss/vendor/**/*
+src/**/*.html
+src/js/**/*
