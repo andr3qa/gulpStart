@@ -1,7 +1,7 @@
-@import "vars";
-@import "mixins";
-@import "fonts";
-@import "settings";
-@import "./components/header";
-@import "./components/hero";
-@import "./components/footer";
+@use "vars"as *;
+@use "mixins"as *;
+@use "fonts"as *;
+@use "settings"as *;
+@use "./components/header"as *;
+@use "./components/hero"as *;
+@use "./components/footer"as *;

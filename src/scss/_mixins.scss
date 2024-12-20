@@ -1,9 +1,9 @@
-@import "./mixins/breakpoint";
-@import "./mixins/burger";
-@import "./mixins/checkbox";
-@import "./mixins/font-face";
-@import "./mixins/flex";
-@import "./mixins/mini";
-@import "./mixins/tabs";
-@import "./mixins/disable-mob-hover";
-@import "./mixins/layout";
+@use "./mixins/breakpoint"as *;
+@use "./mixins/burger"as *;
+@use "./mixins/checkbox"as *;
+@use "./mixins/font-face"as *;
+@use "./mixins/flex"as *;
+@use "./mixins/mini"as *;
+@use "./mixins/tabs"as *;
+@use "./mixins/disable-mob-hover"as *;
+@use "./mixins/layout"as *;

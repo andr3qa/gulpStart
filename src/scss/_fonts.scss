@@ -1,1 +1,3 @@
-@include font-face("Gilroy", "../fonts/GilroyRegular", 400, normal);
+@use "./mixins/font-face"as *;
+
+@include font-face("Gilroy", "../resources/fonts/GilroyRegular", 400, normal);

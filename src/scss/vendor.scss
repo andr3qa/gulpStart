@@ -1,2 +1,2 @@
-@import "./vendor/normalize";
-@import "../../node_modules/swiper/swiper-bundle.min";
+@use "./vendor/normalize"as *;
+@use "../../node_modules/swiper/swiper-bundle.min"as *;
