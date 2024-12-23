@@ -1,4 +1,4 @@
-@use "vars"as *;
+@use "mixins"as *;
 
 *,
 *::before,
@@ -8,7 +8,7 @@
 
 .page {
   height: 100%;
-  font-family: $fontFamily;
+  font-family: var(--fontFamily);
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
 }
@@ -81,8 +81,8 @@ a {
 
 .container {
   margin: 0 auto;
-  padding: 0 $containerOffset;
-  max-width: $containerWidth;
+  padding: 0 var(--containerOffset);
+  max-width: var(--containerWidth);
 }
 
 .centered {

@@ -1,9 +1,11 @@
-$fontFamily: "Gilroy", sans-serif;
+:root {
+  --fontFamily: "Gilroy", sans-serif;
 
-$contentWidth: 1138px;
-$containerOffset: 15px;
-$containerWidth: calc($contentWidth + $containerOffset * 2);
+  --contentWidth: 1138px;
+  --containerOffset: 15px;
+  --containerWidth: calc(var(--contentWidth) + var(--containerOffset) * 2);
 
-$mainColor: #0297f1;
-$secondColor: #ef8711;
-$fontColor: #13284f;
+  --mainColor: #0297f1;
+  --secondColor: #ef8711;
+  --fontColor: #13284f;
+}

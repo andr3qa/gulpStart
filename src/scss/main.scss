@@ -1,7 +1,6 @@
-@use "vars"as *;
-@use "mixins"as *;
-@use "fonts"as *;
-@use "settings"as *;
-@use "./components/header"as *;
-@use "./components/hero"as *;
-@use "./components/footer"as *;
+@use "vars";
+@use "fonts";
+@use "settings";
+@use "./components/header";
+@use "./components/hero";
+@use "./components/footer";
