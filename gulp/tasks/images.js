@@ -3,6 +3,7 @@ import gulpif from 'gulp-if';
 //   gifsicle,
 //   mozjpeg,
 //   optipng,
+//   svgo
 // } from 'gulp-imagemin';
 import newer from "gulp-newer";
 import plumber from 'gulp-plumber';
@@ -18,7 +19,7 @@ export const images = () => {
         message: "Error: <%= error.message %>"
       })))
     .pipe(newer(app.paths.buildImgFolder))
-    // .pipe(gulpif(app.isProd, imagemin([
+    // .pipe(imagemin([
     //   gifsicle({
     //     interlaced: true
     //   }),
@@ -27,8 +28,8 @@ export const images = () => {
     //     progressive: true
     //   }),
     //   optipng({
-    //     optimizationLevel: 2
+    //     optimizationLevel: 5
     //   }),
-    // ])))
+    // ]))
     .pipe(app.gulp.dest(app.paths.buildImgFolder))
 };

@@ -10,14 +10,18 @@ import notify from 'gulp-notify';
 const sass = gulpSass(dartSass);
 
 export const styles = () => {
-  return app.gulp.src(app.paths.srcScss, { sourcemaps: !app.isProd })
+  return app.gulp.src(app.paths.srcScss, {
+      sourcemaps: !app.isProd
+    })
     .pipe(plumber(
       notify.onError({
         title: "SCSS",
         message: "Error: <%= error.message %>"
       })
     ))
-    .pipe(sass())
+    .pipe(sass({
+      silenceDeprecations: ['legacy-js-api']
+    }))
     .pipe(autoprefixer({
       cascade: false,
       grid: true,
@@ -26,6 +30,8 @@ export const styles = () => {
     .pipe(gulpif(app.isProd, cleanCSS({
       level: 2
     })))
-    .pipe(app.gulp.dest(app.paths.buildCssFolder, { sourcemaps: '.' }))
+    .pipe(app.gulp.dest(app.paths.buildCssFolder, {
+      sourcemaps: '.'
+    }))
     .pipe(browserSync.stream());
 };

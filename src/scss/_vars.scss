@@ -1,11 +1,10 @@
 :root {
-  --fontFamily: "Gilroy", sans-serif;
-
-  --contentWidth: 1138px;
+  --fontFamily: "Montserrat", sans-serif;
+  --contentWidth: 1300px;
+  --siteWidthMax: 1500px;
+  --siteWidthMin: 414px;
   --containerOffset: 15px;
   --containerWidth: calc(var(--contentWidth) + var(--containerOffset) * 2);
-
-  --mainColor: #0297f1;
-  --secondColor: #ef8711;
-  --fontColor: #13284f;
+  --mainColor: #3ec1e9;
+  --fontColor: #1c1a1a;
 }
